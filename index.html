@@ -2,96 +2,182 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Meu Amorzinho</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Meu Amor</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { --pink-main: #ff6b81; --iphone-bg: #1c1c1e; }
-        body { margin: 0; background: #fce4ec url('1000038095.jpg') center/cover fixed; font-family: 'Quicksand', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* Gatinhos Iniciais */
-        .cats-intro { text-align: center; padding-top: 40px; z-index: 10; position: relative; }
-        .waving-cat { width: 220px; border-radius: 15px; animation: waveArm 1s infinite alternate; }
-        @keyframes waveArm { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        /* Envelope e Carta */
-        .envelope-section { display: flex; flex-direction: column; align-items: center; min-height: 500px; padding-top: 50px; }
-        .envelope-wrapper { position: relative; width: 320px; height: 220px; }
-        .envelope-top-flap { position: absolute; top: 0; width: 0; height: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-top: 120px solid #d32f2f; transform-origin: top; z-index: 5; transition: 0.8s; }
-        .envelope-body { position: absolute; bottom: 0; width: 100%; height: 100%; background-color: #e55a6d; border-radius: 0 0 10px 10px; z-index: 1; border: 2px solid black; }
+        body { 
+            margin: 0; 
+            padding: 0;
+            background: #fce4ec url('1000038095.jpg') center/cover fixed; /* */
+            font-family: 'Quicksand', sans-serif; 
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        /* Chuva de Corações */
+        .heart-rain {
+            position: fixed; top: -10%; z-index: 1;
+            user-select: none; pointer-events: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Animação dos Gatinhos (Movimento lateral e aceno) */
+        .cats-intro {
+            text-align: center; padding-top: 30px; position: relative; z-index: 10;
+            animation: slideIn 2s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .waving-cat {
+            width: 180px; border-radius: 20px;
+            animation: wave 0.8s infinite alternate ease-in-out;
+        }
+        @keyframes wave {
+            from { transform: rotate(-8deg) translateY(0); }
+            to { transform: rotate(8deg) translateY(-5px); }
+        }
+
+        /* Envelope Mobile */
+        .envelope-section {
+            display: flex; flex-direction: column; align-items: center;
+            padding: 20px; min-height: 450px;
+        }
+        .envelope-wrapper { position: relative; width: 280px; height: 180px; margin-top: 40px; }
+        .envelope-body { position: absolute; bottom: 0; width: 100%; height: 100%; background: #e55a6d; border-radius: 0 0 10px 10px; z-index: 2; border: 2px solid #000; }
+        .envelope-top-flap { 
+            position: absolute; top: 0; width: 0; height: 0; 
+            border-left: 140px solid transparent; border-right: 140px solid transparent;
+            border-top: 100px solid #d32f2f; transform-origin: top; z-index: 6; transition: 0.8s;
+        }
+        .envelope-front-pocket {
+            position: absolute; bottom: 0; width: 0; height: 0;
+            border-left: 140px solid transparent; border-right: 140px solid transparent;
+            border-bottom: 120px solid var(--pink-main); z-index: 4;
+        }
+
+        /* Carta que sobe */
+        .letter-card {
+            position: absolute; bottom: 10px; left: 10px; width: 260px;
+            background: #fff; border: 2px solid #000; padding: 15px;
+            transition: 1s 0.6s; z-index: 3; opacity: 0; text-align: center;
+        }
+        .letter-card h2 { font-family: 'Dancing Script', cursive; color: #c2185b; margin: 0; }
         
-        .letter-card { position: absolute; bottom: 10px; left: 10px; width: 300px; background: #fffafa; border: 3px solid #000; padding: 20px; transition: 1s 0.6s; z-index: 2; opacity: 0; box-sizing: border-box; text-align: center; border-radius: 5px; }
-        .letter-card h2, .letter-card p { font-family: 'Dancing Script', cursive; color: #c2185b; }
-
-        .click-heart-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); cursor: pointer; z-index: 10; text-align: center; }
-        .heart-shape { font-size: 4rem; color: #ff0000; animation: pulse 1s infinite; display: block; text-shadow: 2px 2px black; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-
+        /* Estados */
         .envelope-wrapper.open .envelope-top-flap { transform: rotateX(180deg); z-index: 1; }
-        .envelope-wrapper.open .letter-card { transform: translateY(-260px); opacity: 1; z-index: 15; }
-        .envelope-wrapper.open .click-heart-btn { display: none; }
+        .envelope-wrapper.open .letter-card { transform: translateY(-200px); opacity: 1; z-index: 10; height: auto; }
 
-        #continueBtn { margin-top: 40px; padding: 12px 25px; background: var(--pink-main); color: white; border: 2px solid #000; border-radius: 25px; font-weight: bold; cursor: pointer; opacity: 0; transition: 1s; }
+        .click-heart-btn {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 11; text-align: center; cursor: pointer;
+        }
+        .heart-btn { font-size: 4rem; color: #ff0000; animation: pulse 1s infinite; text-shadow: 2px 2px #000; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
-        /* Segunda Seção */
-        #second-section { padding: 80px 20px; text-align: center; background: rgba(255, 255, 255, 0.4); }
-        .music-player { background: var(--iphone-bg); width: 300px; margin: 40px auto; padding: 20px; border-radius: 35px; color: white; border: 3px solid #333; }
-        .thought { background: white; color: black; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; border: 1px solid #000; margin: 10px; display: inline-block; animation: float 3s infinite alternate ease-in-out; }
-        @keyframes float { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+        /* Botão Continuar */
+        #continueBtn {
+            margin-top: 30px; padding: 15px 40px; background: var(--pink-main);
+            color: white; border: 2px solid #000; border-radius: 30px;
+            font-weight: bold; font-size: 1.1rem; opacity: 0; transition: 1s; z-index: 20;
+        }
 
-        .photo-area { width: 280px; height: 380px; background: white; margin: 40px auto; border: 8px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
-        .love-text { font-family: 'Dancing Script', cursive; font-size: 4rem; color: #d32f2f; text-shadow: 2px 2px white; }
+        /* Seção Spotify e Frases */
+        #second-section { padding: 40px 15px; text-align: center; }
+        .spotify-player { margin: 30px 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        
+        .thought-bubble {
+            background: white; border: 1px solid #000; padding: 10px; border-radius: 15px;
+            margin: 10px; display: inline-block; font-size: 0.9rem;
+            animation: float 3s infinite alternate;
+        }
+        @keyframes float { from { transform: translateY(0); } to { transform: translateY(-15px); } }
+
+        .final-area { margin-top: 50px; }
+        .love-text { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: #d32f2f; margin-top: 20px; }
+        
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
+    <div id="rain-container"></div>
+
     <div id="intro" class="cats-intro">
-        <img src="1000038094.jpg" class="waving-cat">
-        <p style="font-family:'Dancing Script'; font-size: 2rem;">Oi meu amorzinho!</p>
+        <img src="1000038094.jpg" class="waving-cat" alt="Gatinhos">
+        <p style="font-family:'Dancing Script'; font-size: 2.2rem; color: #c2185b;">Oi meu amorzinho! ❤️</p>
     </div>
 
     <div class="envelope-section">
         <div class="envelope-wrapper" id="envelope">
             <div class="letter-card">
                 <h2>Meu amorzinho,</h2>
-                <p>Eu te amo muito! Você é a pessoa mais especial da minha vida e cada segundo com você é um sonho realizado.</p>
-                <p><strong>Com todo o meu amor para você!</strong></p>
+                <p>Eu te amo muito! Você é a razão da minha felicidade diária. Cada momento ao seu lado é perfeito.</p>
+                <p><strong>Com todo o meu amor!</strong></p>
             </div>
             <div class="envelope-body"></div>
             <div class="envelope-top-flap"></div>
+            <div class="envelope-front-pocket"></div>
             <div id="openBtn" class="click-heart-btn">
-                <span class="heart-shape">❤</span>
-                <span style="color:white; font-weight:bold;">CLIQUE</span>
+                <span class="heart-btn">❤</span>
+                <span style="color:white; font-weight:bold; display:block; margin-top:-10px; text-shadow:1px 1px #000">CLIQUE</span>
             </div>
         </div>
         <button id="continueBtn">Continuar ❤️</button>
     </div>
 
     <div id="second-section" class="hidden">
-        <div>
-            <span class="thought">Minha paz é você</span>
-            <span class="thought">Sorte a minha</span>
-            <span class="thought">Te amo infinitamente</span>
+        <div class="thought-bubble">Você é minha paz 🕊️</div>
+        <div class="thought-bubble">Meu porto seguro ⚓</div>
+        <div class="thought-bubble">Sorte a minha 🍀</div>
+
+        <div class="spotify-player">
+            <iframe src="https://open.spotify.com/embed/track/19pMGl69iaq9T96Of6InS8?utm_source=generator&theme=0" 
+                width="100%" height="152" frameBorder="0" allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+            </iframe>
         </div>
-        <div class="music-player">
-            <img src="https://i.scdn.co/image/ab67616d0000b273b7546059e0a010d2d3f7f6f1" style="width:100%; border-radius:20px;">
-            <div style="text-align: left; margin-top:15px;">
-                <strong>Céu Azul</strong><br><span style="color:#aaa;">Charlie Brown Jr.</span>
+
+        <div class="final-area">
+            <p style="font-weight:bold; font-size: 1.2rem;">Olha a gente:</p>
+            <div style="width:280px; height:350px; background:#fff; margin:0 auto; border:8px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <p style="color:#999; padding-top:150px;">[Sua Foto Aqui]</p>
             </div>
-            <div style="font-size: 2rem; margin-top:15px;">⏮  ⏸  ⏭</div>
+            
+            <div style="margin-top:40px;">
+                <img src="1000038094.jpg" class="waving-cat" style="width:140px;">
+                <p><strong>Tchau tchau amor!</strong></p>
+            </div>
+            <h1 class="love-text">Eu te amo!</h1>
         </div>
-        <div class="photo-area">
-            <p style="color:#999;">[Coloque sua foto aqui]</p>
-        </div>
-        <div style="margin-top:20px;">
-            <img src="1000038094.jpg" class="waving-cat" style="width:150px;">
-            <p><strong>Tchau tchau!</strong></p>
-        </div>
-        <h1 class="love-text">Eu te amo!</h1>
     </div>
 
     <script>
+        // Função para criar chuva de corações
+        function createRain() {
+            const container = document.getElementById('rain-container');
+            const heart = document.createElement('div');
+            heart.classList.add('heart-rain');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createRain, 300);
+
+        // Lógica do Envelope
         const openBtn = document.getElementById('openBtn');
         const envelope = document.getElementById('envelope');
         const continueBtn = document.getElementById('continueBtn');
@@ -100,12 +186,20 @@
 
         openBtn.addEventListener('click', () => {
             envelope.classList.add('open');
-            setTimeout(() => { intro.style.display = 'none'; }, 800);
-            setTimeout(() => { continueBtn.style.opacity = "1"; }, 3000);
+            setTimeout(() => { 
+                intro.style.transition = '1s';
+                intro.style.opacity = '0';
+            }, 1000);
+            setTimeout(() => { continueBtn.style.opacity = "1"; }, 3500);
         });
 
         continueBtn.addEventListener('click', () => {
             secondSection.classList.remove('hidden');
+            secondSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</h            secondSection.classList.remove('hidden');
             secondSection.scrollIntoView({ behavior: 'smooth' });
         });
     </script>
