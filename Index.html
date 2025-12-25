@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Meu Amorzinho</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --pink-main: #ff6b81; --iphone-bg: #1c1c1e; }
+        body { margin: 0; background: #fce4ec url('1000038095.jpg') center/cover fixed; font-family: 'Quicksand', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        /* Gatinhos Iniciais */
+        .cats-intro { text-align: center; padding-top: 40px; z-index: 10; position: relative; }
+        .waving-cat { width: 220px; border-radius: 15px; animation: waveArm 1s infinite alternate; }
+        @keyframes waveArm { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+
+        /* Envelope e Carta */
+        .envelope-section { display: flex; flex-direction: column; align-items: center; min-height: 500px; padding-top: 50px; }
+        .envelope-wrapper { position: relative; width: 320px; height: 220px; }
+        .envelope-top-flap { position: absolute; top: 0; width: 0; height: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-top: 120px solid #d32f2f; transform-origin: top; z-index: 5; transition: 0.8s; }
+        .envelope-body { position: absolute; bottom: 0; width: 100%; height: 100%; background-color: #e55a6d; border-radius: 0 0 10px 10px; z-index: 1; border: 2px solid black; }
+        
+        .letter-card { position: absolute; bottom: 10px; left: 10px; width: 300px; background: #fffafa; border: 3px solid #000; padding: 20px; transition: 1s 0.6s; z-index: 2; opacity: 0; box-sizing: border-box; text-align: center; border-radius: 5px; }
+        .letter-card h2, .letter-card p { font-family: 'Dancing Script', cursive; color: #c2185b; }
+
+        .click-heart-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); cursor: pointer; z-index: 10; text-align: center; }
+        .heart-shape { font-size: 4rem; color: #ff0000; animation: pulse 1s infinite; display: block; text-shadow: 2px 2px black; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        .envelope-wrapper.open .envelope-top-flap { transform: rotateX(180deg); z-index: 1; }
+        .envelope-wrapper.open .letter-card { transform: translateY(-260px); opacity: 1; z-index: 15; }
+        .envelope-wrapper.open .click-heart-btn { display: none; }
+
+        #continueBtn { margin-top: 40px; padding: 12px 25px; background: var(--pink-main); color: white; border: 2px solid #000; border-radius: 25px; font-weight: bold; cursor: pointer; opacity: 0; transition: 1s; }
+
+        /* Segunda Seção */
+        #second-section { padding: 80px 20px; text-align: center; background: rgba(255, 255, 255, 0.4); }
+        .music-player { background: var(--iphone-bg); width: 300px; margin: 40px auto; padding: 20px; border-radius: 35px; color: white; border: 3px solid #333; }
+        .thought { background: white; color: black; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; border: 1px solid #000; margin: 10px; display: inline-block; animation: float 3s infinite alternate ease-in-out; }
+        @keyframes float { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
+        .photo-area { width: 280px; height: 380px; background: white; margin: 40px auto; border: 8px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; }
+        .love-text { font-family: 'Dancing Script', cursive; font-size: 4rem; color: #d32f2f; text-shadow: 2px 2px white; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="intro" class="cats-intro">
+        <img src="1000038094.jpg" class="waving-cat">
+        <p style="font-family:'Dancing Script'; font-size: 2rem;">Oi meu amorzinho!</p>
+    </div>
+
+    <div class="envelope-section">
+        <div class="envelope-wrapper" id="envelope">
+            <div class="letter-card">
+                <h2>Meu amorzinho,</h2>
+                <p>Eu te amo muito! Você é a pessoa mais especial da minha vida e cada segundo com você é um sonho realizado.</p>
+                <p><strong>Com todo o meu amor para você!</strong></p>
+            </div>
+            <div class="envelope-body"></div>
+            <div class="envelope-top-flap"></div>
+            <div id="openBtn" class="click-heart-btn">
+                <span class="heart-shape">❤</span>
+                <span style="color:white; font-weight:bold;">CLIQUE</span>
+            </div>
+        </div>
+        <button id="continueBtn">Continuar ❤️</button>
+    </div>
+
+    <div id="second-section" class="hidden">
+        <div>
+            <span class="thought">Minha paz é você</span>
+            <span class="thought">Sorte a minha</span>
+            <span class="thought">Te amo infinitamente</span>
+        </div>
+        <div class="music-player">
+            <img src="https://i.scdn.co/image/ab67616d0000b273b7546059e0a010d2d3f7f6f1" style="width:100%; border-radius:20px;">
+            <div style="text-align: left; margin-top:15px;">
+                <strong>Céu Azul</strong><br><span style="color:#aaa;">Charlie Brown Jr.</span>
+            </div>
+            <div style="font-size: 2rem; margin-top:15px;">⏮  ⏸  ⏭</div>
+        </div>
+        <div class="photo-area">
+            <p style="color:#999;">[Coloque sua foto aqui]</p>
+        </div>
+        <div style="margin-top:20px;">
+            <img src="1000038094.jpg" class="waving-cat" style="width:150px;">
+            <p><strong>Tchau tchau!</strong></p>
+        </div>
+        <h1 class="love-text">Eu te amo!</h1>
+    </div>
+
+    <script>
+        const openBtn = document.getElementById('openBtn');
+        const envelope = document.getElementById('envelope');
+        const continueBtn = document.getElementById('continueBtn');
+        const secondSection = document.getElementById('second-section');
+        const intro = document.getElementById('intro');
+
+        openBtn.addEventListener('click', () => {
+            envelope.classList.add('open');
+            setTimeout(() => { intro.style.display = 'none'; }, 800);
+            setTimeout(() => { continueBtn.style.opacity = "1"; }, 3000);
+        });
+
+        continueBtn.addEventListener('click', () => {
+            secondSection.classList.remove('hidden');
+            secondSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
